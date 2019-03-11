@@ -33,7 +33,11 @@ module Kitbuilder
     }
 
     def relevant_mapping
-      RELEVANT_MAPPING.merge(@scopes.map { |s| { s.to_sym => s } })
+      h = Hash.new
+      @scopes.map { |s|
+	      h.merge!({s.to_sym => s})
+      }
+      RELEVANT_MAPPING.merge(h)
     end
 
     # WGETS
