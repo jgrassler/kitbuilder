@@ -86,7 +86,6 @@ module Kitbuilder
       return unless Nexus.find(self).empty?
       return unless Sonatype.find(self).empty?
       return unless SonatypeSnapshots.find(self).empty?
-      return unless Clojars.find(self).empty?
     end
 
 
@@ -118,7 +117,6 @@ module Kitbuilder
       check_download_result(Nexus.download(self)) && return
       check_download_result(Sonatype.find(self)) && return
       check_download_result(SonatypeSnapshots.find(self)) && return
-      check_download_result(Clojars.download(self)) && return
     end
     #
     #
