@@ -69,13 +69,49 @@ module Kitbuilder
     #
     #  returns pomfile, jarfile, sourcesfile
     def find
-      Maven2.find(self) || Central.find(self) || JCenter.find(self) || Bintray.find(self) || Gradle.find(self) || GradleReleases.find(self) || GradleLocal.find(self) || Torquebox.find(self) || JBoss.find(self) || GeoMajas.find(self) || Andsel.find(self) || ApacheSnapshots.find(self) || ApacheStaging.find(self) || Clojars.find(self) || Confluent.find(self) || Elasticsearch.find(self) || Nexus.find(self) || Sonatype.find(self) || SonatypeSnapshots.find(self)
+      return unless Maven2.find(self).empty?
+      return unless Central.find(self).empty?
+      return unless JCenter.find(self).empty?
+      return unless Bintray.find(self).empty?
+      return unless Gradle.find(self).empty?
+      return unless GradleReleases.find(self).empty?
+      return unless GradleLocal.find(self).empty?
+      return unless Torquebox.find(self).empty?
+      return unless JBoss.find(self).empty?
+      return unless GeoMajas.find(self).empty?
+      return unless Andsel.find(self).empty?
+      return unless ApacheSnapshots.find(self).empty?
+      return unless ApacheStaging.find(self).empty?
+      return unless Clojars.find(self).empty?
+      return unless Confluent.find(self).empty?
+      return unless Elasticsearch.find(self).empty?
+      return unless Nexus.find(self).empty?
+      return unless Sonatype.find(self).empty?
+      return unless SonatypeSnapshots.find(self).empty?
     end
     #
     # download pom from maven universe
     #  returns cached, pomfile, sourcesfile
     def download
-      Maven2.download(self) || Central.download(self) || JCenter.download(self) || Bintray.download(self) || Gradle.download(self) || GradleReleases.download(self) || GradleLocal.download(self) || Torquebox.download(self) || JBoss.download(self) || GeoMajas.download(self)|| Andsel.download(self) || ApacheSnapshots.download(self) || ApacheStaging.download(self) || Clojars.download(self) || Confluent.download(self) || Elasticsearch.download(self) || Nexus.download(self) || Sonatype.find(self) || SonatypeSnapshots.find(self)
+      res = Maven2.download(self); res[0] && return
+      res = Central.download(self); res[0] && return
+      res = JCenter.download(self); res[0] && return
+      res = Bintray.download(self); res[0] && return
+      res = Gradle.download(self); res[0] && return
+      res = GradleReleases.download(self); res[0] && return
+      res = GradleLocal.download(self); res[0] && return
+      res = Torquebox.download(self); res[0] && return
+      res = JBoss.download(self); res[0] && return
+      res = GeoMajas.download(self); res[0] && return
+      res = Andsel.download(self); res[0] && return
+      res = ApacheSnapshots.download(self); res[0] && return
+      res = ApacheStaging.download(self); res[0] && return
+      res = Clojars.download(self); res[0] && return
+      res = Confluent.download(self); res[0] && return
+      res = Elasticsearch.download(self); res[0] && return
+      res = Nexus.download(self); res[0] && return
+      res = Sonatype.find(self); res[0] && return
+      res = SonatypeSnapshots.find(self); res[0] && return
     end
     #
     #
