@@ -27,6 +27,23 @@ class Spec
     @sources = []
     @description = "Source jars/zips for license-digger"
     @summary = "Source jars/zips for #{name}"
+
+    spec_name = "#{@name}.spec"
+    if File.exists?(spec_name)
+      begin
+        s = File.open(spec_name)
+        s.each_line do |l|
+          l.chomp!
+          if l.start_with?("Version:")
+            @version = l.split("/\s+/")[1]
+          end
+        end
+      s.close()
+      rescue IOError => e
+        STDERR.puts("WARN: Could not read from #{spec_name}: #{e}")
+        STDERR.puts("WARN: Not setting version based on existing spec file.")
+      end
+    end
   end
 
   def add_source source
