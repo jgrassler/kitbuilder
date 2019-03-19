@@ -69,13 +69,13 @@ module Kitbuilder
     #
     #  returns pomfile, jarfile, sourcesfile
     def find
-      Maven2.find(self) || Central.find(self) || JCenter.find(self) || Bintray.find(self) || Gradle.find(self) || GradleReleases.find(self) || GradleLocal.find(self) || Torquebox.find(self) || JBoss.find(self) || GeoMajas.find(self)
+      Maven2.find(self) || Central.find(self) || JCenter.find(self) || Bintray.find(self) || Gradle.find(self) || GradleReleases.find(self) || GradleLocal.find(self) || Torquebox.find(self) || JBoss.find(self) || GeoMajas.find(self) || Andsel.find(self) || ApacheSnapshots.find(self) || ApacheStaging.find(self) || Clojars.find(self) || Confluent.find(self) || Elasticsearch.find(self) || Nexus.find(self) || Sonatype.find(self) || SonatypeSnapshots.find(self)
     end
     #
     # download pom from maven universe
     #  returns cached, pomfile, sourcesfile
     def download
-      Maven2.download(self) || Central.download(self) || JCenter.download(self) || Bintray.download(self) || Gradle.download(self) || GradleReleases.download(self) || GradleLocal.download(self) || Torquebox.download(self) || JBoss.download(self) || GeoMajas.download(self)
+      Maven2.download(self) || Central.download(self) || JCenter.download(self) || Bintray.download(self) || Gradle.download(self) || GradleReleases.download(self) || GradleLocal.download(self) || Torquebox.download(self) || JBoss.download(self) || GeoMajas.download(self)|| Andsel.download(self) || ApacheSnapshots.download(self) || ApacheStaging.download(self) || Clojars.download(self) || Confluent.download(self) || Elasticsearch.download(self) || Nexus.download(self) || Sonatype.find(self) || SonatypeSnapshots.find(self)
     end
     #
     #
