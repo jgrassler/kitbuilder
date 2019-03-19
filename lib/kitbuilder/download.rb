@@ -31,6 +31,8 @@ module Kitbuilder
           IO.copy_stream stream, target
           puts "#{target} downloaded to #{Dir.pwd} from #{uri}"
           return :downloaded
+        rescue SocketError => e
+          STDERR.puts "*** SocketError: #{uri} (#{e})"
         rescue Net::OpenTimeout => e
           STDERR.puts "*** OpenTimeout: #{uri} (#{e})"
         rescue OpenURI::HTTPError => e

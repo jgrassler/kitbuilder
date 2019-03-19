@@ -84,7 +84,6 @@ module Kitbuilder
       return unless ApacheStaging.find(self).empty?
       return unless Clojars.find(self).empty?
       return unless Confluent.find(self).empty?
-      return unless Elasticsearch.find(self).empty?
       return unless Nexus.find(self).empty?
       return unless Sonatype.find(self).empty?
       return unless SonatypeSnapshots.find(self).empty?
@@ -108,7 +107,6 @@ module Kitbuilder
       res = ApacheStaging.download(self); res[0] && return
       res = Clojars.download(self); res[0] && return
       res = Confluent.download(self); res[0] && return
-      res = Elasticsearch.download(self); res[0] && return
       res = Nexus.download(self); res[0] && return
       res = Sonatype.find(self); res[0] && return
       res = SonatypeSnapshots.find(self); res[0] && return

@@ -15,7 +15,6 @@ require_relative "repository/apache-snapshots.rb"
 require_relative "repository/apache-staging.rb"
 require_relative "repository/clojars.rb"
 require_relative "repository/confluent.rb"
-require_relative "repository/elasticsearch.rb"
 require_relative "repository/nexus.rb"
 require_relative "repository/sonatype-snapshots.rb"
 
