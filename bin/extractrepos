@@ -1,0 +1,79 @@
+#!/usr/bin/env ruby
+#
+# extractrepos
+#
+# Recursively extracts all Maven repo URLs from pom.xml files in a source
+# directory. Mainly useful for adding new repositories to kitbuilder.
+#
+# Johannes Grassler, March 2019
+
+require "find"
+require "rexml/document"
+
+def help msg = nil
+  STDERR.puts "*** #{msg}" if msg
+  STDERR.puts "Usage:"
+  STDERR.puts "extractrepos <directory>"
+  STDERR.puts "  to recursively extract all Maven repo URLs occuring in pom.xml"
+  STDERR.puts "  files in <directory>."
+  exit((msg)?1:0)
+end
+
+def find_poms dir
+  poms = []
+  Find.find(dir) do |path|
+    if File.basename(path) == "pom.xml"
+      poms.append(path)
+    end
+  end
+
+  return poms
+end
+
+
+def extract_urls pomfile
+  f = File.open(pomfile)
+  doc = REXML::Document.new(f)
+  f.close()
+
+  urls = Array.new
+  parse_dom(doc.root, urls)
+  return urls
+end
+
+
+def parse_dom element, urls
+  if element.elements.empty?
+    return
+  end
+
+  if element.name == 'repository'
+    element.elements.each do |child|
+      if child.name == 'url'
+        urls.append(child.text)
+      end
+    end
+    return
+  end
+
+  element.elements.each do |child| 
+    parse_dom(child, urls)
+  end
+end
+
+
+if ARGV.length != 1
+  help "Invalid number of arguments: #{ARGV.length}"
+end
+
+pomfiles = find_poms(ARGV.shift)
+
+repo_urls = []
+
+pomfiles.each do |f|
+  repo_urls.concat(extract_urls(f))
+end
+
+repo_urls.each do |url|
+  puts url
+end
