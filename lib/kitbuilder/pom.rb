@@ -88,28 +88,37 @@ module Kitbuilder
       return unless Sonatype.find(self).empty?
       return unless SonatypeSnapshots.find(self).empty?
     end
-    #
+
+
+    def check_download_result res
+      if res.nil?
+        return false
+      end
+
+      return res[0]
+    end
+
     # download pom from maven universe
     #  returns cached, pomfile, sourcesfile
     def download
-      res = Maven2.download(self); res[0] && return
-      res = Central.download(self); res[0] && return
-      res = JCenter.download(self); res[0] && return
-      res = Bintray.download(self); res[0] && return
-      res = Gradle.download(self); res[0] && return
-      res = GradleReleases.download(self); res[0] && return
-      res = GradleLocal.download(self); res[0] && return
-      res = Torquebox.download(self); res[0] && return
-      res = JBoss.download(self); res[0] && return
-      res = GeoMajas.download(self); res[0] && return
-      res = Andsel.download(self); res[0] && return
-      res = ApacheSnapshots.download(self); res[0] && return
-      res = ApacheStaging.download(self); res[0] && return
-      res = Clojars.download(self); res[0] && return
-      res = Confluent.download(self); res[0] && return
-      res = Nexus.download(self); res[0] && return
-      res = Sonatype.find(self); res[0] && return
-      res = SonatypeSnapshots.find(self); res[0] && return
+      check_download_result(Maven2.download(self)) && return
+      check_download_result(Central.download(self)) && return
+      check_download_result(JCenter.download(self)) && return
+      check_download_result(Bintray.download(self)) && return
+      check_download_result(Gradle.download(self)) && return
+      check_download_result(GradleReleases.download(self)) && return
+      check_download_result(GradleLocal.download(self)) && return
+      check_download_result(Torquebox.download(self)) && return
+      check_download_result(JBoss.download(self)) && return
+      check_download_result(GeoMajas.download(self)) && return
+      check_download_result(Andsel.download(self)) && return
+      check_download_result(ApacheSnapshots.download(self)) && return
+      check_download_result(ApacheStaging.download(self)) && return
+      check_download_result(Clojars.download(self)) && return
+      check_download_result(Confluent.download(self)) && return
+      check_download_result(Nexus.download(self)) && return
+      check_download_result(Sonatype.find(self)) && return
+      check_download_result(SonatypeSnapshots.find(self)) && return
     end
     #
     #
