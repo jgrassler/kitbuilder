@@ -82,11 +82,11 @@ module Kitbuilder
       return unless Andsel.find(self).empty?
       return unless ApacheSnapshots.find(self).empty?
       return unless ApacheStaging.find(self).empty?
-      return unless Clojars.find(self).empty?
       return unless Confluent.find(self).empty?
       return unless Nexus.find(self).empty?
       return unless Sonatype.find(self).empty?
       return unless SonatypeSnapshots.find(self).empty?
+      return unless Clojars.find(self).empty?
     end
 
 
@@ -114,11 +114,11 @@ module Kitbuilder
       check_download_result(Andsel.download(self)) && return
       check_download_result(ApacheSnapshots.download(self)) && return
       check_download_result(ApacheStaging.download(self)) && return
-      check_download_result(Clojars.download(self)) && return
       check_download_result(Confluent.download(self)) && return
       check_download_result(Nexus.download(self)) && return
       check_download_result(Sonatype.find(self)) && return
       check_download_result(SonatypeSnapshots.find(self)) && return
+      check_download_result(Clojars.download(self)) && return
     end
     #
     #
