@@ -97,7 +97,7 @@ module Kitbuilder
           end
           [true, pomfile, sourcesfile]
         else
-          [true, pomfile]
+          [false, pomfile]
         end
       else
         nil
