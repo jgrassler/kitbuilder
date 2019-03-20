@@ -95,9 +95,9 @@ module Kitbuilder
             STDERR.puts "*** Can't download source for #{pom}:#{jarfile}"
             sourcesfile = nil
           end
-          [false, pomfile, sourcesfile]
+          [true, pomfile, sourcesfile]
         else
-          [false, pomfile]
+          [true, pomfile]
         end
       else
         nil
