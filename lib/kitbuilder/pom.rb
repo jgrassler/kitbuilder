@@ -90,6 +90,8 @@ module Kitbuilder
 
 
     def check_download_result res
+      @download_result = res
+
       if res.nil?
         return false
       end
@@ -105,23 +107,25 @@ module Kitbuilder
     # download pom from maven universe
     #  returns cached, pomfile, sourcesfile
     def download
-      check_download_result(Maven2.download(self)) && return
-      check_download_result(Central.download(self)) && return
-      check_download_result(JCenter.download(self)) && return
-      check_download_result(Bintray.download(self)) && return
-      check_download_result(Gradle.download(self)) && return
-      check_download_result(GradleReleases.download(self)) && return
-      check_download_result(GradleLocal.download(self)) && return
-      check_download_result(Torquebox.download(self)) && return
-      check_download_result(JBoss.download(self)) && return
-      check_download_result(GeoMajas.download(self)) && return
-      check_download_result(Andsel.download(self)) && return
-      check_download_result(ApacheSnapshots.download(self)) && return
-      check_download_result(ApacheStaging.download(self)) && return
-      check_download_result(Confluent.download(self)) && return
-      check_download_result(Nexus.download(self)) && return
-      check_download_result(Sonatype.find(self)) && return
-      check_download_result(SonatypeSnapshots.find(self)) && return
+      return(@download_result) if check_download_result(Maven2.download(self))
+      return(@download_result) if check_download_result(Central.download(self))
+      return(@download_result) if check_download_result(JCenter.download(self))
+      return(@download_result) if check_download_result(Bintray.download(self))
+      return(@download_result) if check_download_result(Gradle.download(self))
+      return(@download_result) if check_download_result(GradleReleases.download(self))
+      return(@download_result) if check_download_result(GradleLocal.download(self))
+      return(@download_result) if check_download_result(Torquebox.download(self))
+      return(@download_result) if check_download_result(JBoss.download(self))
+      return(@download_result) if check_download_result(GeoMajas.download(self))
+      return(@download_result) if check_download_result(Andsel.download(self))
+      return(@download_result) if check_download_result(ApacheSnapshots.download(self))
+      return(@download_result) if check_download_result(ApacheStaging.download(self))
+      return(@download_result) if check_download_result(Confluent.download(self))
+      return(@download_result) if check_download_result(Nexus.download(self))
+      return(@download_result) if check_download_result(Sonatype.find(self))
+      return(@download_result) if check_download_result(SonatypeSnapshots.find(self))
+
+      return nil
     end
     #
     #
