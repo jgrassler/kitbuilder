@@ -94,6 +94,11 @@ module Kitbuilder
         return false
       end
 
+      # pom with sources but no sources file downloaded
+      if res[0] && res[2].nil?
+        return false
+      end
+
       return res[0]
     end
 
