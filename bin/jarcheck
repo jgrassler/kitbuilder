@@ -35,7 +35,7 @@ class Spec
         s.each_line do |l|
           l.chomp!
           if l.start_with?("Version:")
-            @version = l.split("/\s+/")[1]
+            @version = l.split(/\s+/)[1]
           end
         end
       s.close()
