@@ -95,11 +95,11 @@ module Kitbuilder
       end
 
       # pom with sources but no sources file downloaded
-      if res[0] && res[2].nil?
+      if @with_sources && res[2].nil?
         return false
       end
 
-      return res[0]
+      return true
     end
 
     # download pom from maven universe

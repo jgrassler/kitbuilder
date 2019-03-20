@@ -74,7 +74,10 @@ module Kitbuilder
       testsfile = basename + "-tests.jar"
       javadocfile = basename + "-javadoc.jar"
         
-      case Download.download(uri + "/#{pomfile}", pomfile, pom.verbose)
+      download_res = Download.download(uri + "/#{pomfile}", pomfile, pom.verbose)
+      cached = (download_res == :cached)
+
+      case download_res
       when :cached, :downloaded
         Download.download(uri + "/#{jarfile}", jarfile, pom.verbose)
         Download.download(uri + "/#{testfile}", testfile, pom.verbose)
@@ -95,9 +98,9 @@ module Kitbuilder
             STDERR.puts "*** Can't download source for #{pom}:#{jarfile}"
             sourcesfile = nil
           end
-          [!sourcesfile.nil?, pomfile, sourcesfile]
+          [cached, pomfile, sourcesfile]
         else
-          [true, pomfile]
+          [cached, pomfile]
         end
       else
         nil
