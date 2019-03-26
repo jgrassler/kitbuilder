@@ -1,0 +1,91 @@
+#!/usr/bin/ruby
+
+# usage: completespec <url file> <spec file> [ <spec file> ...  ]
+
+# URL file should be formatted as 2 or 3 space delimited columns, like in the
+# following example
+# 
+# bsh:bsh:1.3.0 http://www.beanshell.org/bsh-1.3.0-src.jar
+# cheshire:cheshire:5.3.1 https://github.com/dakrone/cheshire/archive/5.3.1.tar.gz cheshire-5.3.1.tar.gz
+#
+# The first column, should contain the missing Require's name as it occurs in
+# the jarcheck generated spec file.
+# 
+# The second column should contain the URL the missing Require can be
+# downloaded from or the keyword "remove". If the "remove" keyword is present,
+# the spec line for that particular name is omitted entirely in step (4).
+# 
+# The third column is optional and contains the file name (relative to the
+# current directory) the requirement in question should be saved to. If it is
+# missing, the URL's last component is used as file name.
+#
+# This script operates as follows:
+#
+#   1) It downloads any files not existing in the current directory.
+#   2) It parses each spec file and gathers the dangling Requires.
+#   3) It copies any files available from the sources it downloaded to the
+#      directory the spec is in and modifies the dangling Require line to point
+#      to the file in question.
+#   4) It changes any dangling Require lines it can resolve to point to the
+#      file copied over in step (3).
+
+require "fileutils"
+
+urls = File.open(ARGV.shift())
+
+sources = {}
+
+urls.each_line do |l|
+  name, url, filename = l.split(/\s+:?/)
+
+  if ( filename.nil? )
+    filename = File.basename(url)
+  end
+
+  sources[name] = { :url => url, :filename => filename }
+  unless File.exists?(filename)
+    if system("wget", "-O", filename, url)
+      STDERR.puts("#{filename} downloaded from #{url}")
+    else
+      STDERR.puts("Download from #{url} (#{filename}) failed.")
+    end
+  end
+end
+
+urls.close()
+
+ARGV.each { |spec|
+  f = File.open(spec)
+  specdir = File.dirname(spec)
+  out = []
+
+  f.each_line {|l|
+    if l.match(/^Source.*#/)
+      start, name, trail = l.split('#')
+      name.strip!
+      if sources.key?(name)
+        filename = sources[name][:filename]
+        l = start + filename + "\n"
+        unless File.exists?("#{specdir}/#{filename}")
+          FileUtils.cp(filename, "#{specdir}/#{filename}")
+        end
+        if sources[name][:filename] == 'remove'
+            STDERR.puts("WARN: omitting `#{l}` from spec file #{spec}")
+            next
+        end
+      else
+        STDERR.puts("WARN: could not locate source file for `#{l.chomp}` in spec file #{spec}")
+      end
+    end
+
+    out.push(l)
+    }
+  f.close()
+
+  f = File.open(spec, mode='w')
+
+  out.each{|line|
+    f.write(line)
+  }
+  f.close()
+  }
